@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 12,
     width: "75%",
-    marginBottom: 20,
+    marginBottom: 15,
     backgroundColor: "#fff",
   },
   leftIcon: {
