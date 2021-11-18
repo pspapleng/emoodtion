@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 12,
     width: "75%",
+    marginBottom: 15,
+    backgroundColor: "#fff",
   },
   leftIcon: {
     marginTop: 2,
@@ -75,7 +77,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     width: "100%",
-    fontSize: 20,
+    fontSize: 16,
   },
   rightIcon: {
     alignSelf: "center",
