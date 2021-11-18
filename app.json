@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,6 +25,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "IOS_KEY": "225909888952-6raf8msh30v93m3j1nmf87r0ri9chl7u.apps.googleusercontent.com",
+      "ANDROID_KEY": "",
+      "API_KEY": "AIzaSyCZPFBqeNTdMc52qNhGi5iDKZhyFzXDPlE",
+      "AUTH_DOMAIN": "emoodtion-test.firebaseapp.com",
+      "DATABASE_URL": "emoodtion-test.firebaseapp.com",
+      "PROJECT_ID": "emoodtion-test",
+      "STORAGE_BUCKET": "emoodtion-test.appspot.com",
+      "MESSAGE_SENDER_ID": "491840426363",
+      "APP_ID": "1:491840426363:web:1215535f2fa1e6f1ca2dde"
     }
   }
 }
