@@ -1,7 +1,7 @@
 import React from "react";
 import { createStore, combineReducers } from "redux";
 import { Provider } from "react-redux";
-import { StyleSheet } from "react-native";
+import { StyleSheet, LogBox } from "react-native";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import Routes from "./navigation/index";
 import userReducer from "./store/reducers/userReducer";
@@ -32,6 +32,8 @@ const theme = {
 };
 
 export default function App() {
+  // LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+  LogBox.ignoreAllLogs(); //Ignore all log notifications
   return (
     <PaperProvider theme={theme}>
       <Provider store={store}>
