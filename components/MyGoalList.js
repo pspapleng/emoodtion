@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { List, Checkbox } from "react-native-paper";
-import { MyIconButton } from "./index";
+import { MyIconButton } from "./MyIconButton";
 
 const MyGoalList = ({
   title,
