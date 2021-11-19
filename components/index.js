@@ -8,6 +8,8 @@ import MyGoalList from "./MyGoalList";
 import MyLeftTextBubble from "./MyLeftTextBubble";
 import MyRightTextBubble from "./MyRightTextBubble";
 import MyTextArea from "./MyTextArea";
+import MyListCenter from "./MyListCenter";
+import MyListReview from "./MyListReview";
 
 export {
   MyButton,
@@ -20,4 +22,6 @@ export {
   MyLeftTextBubble,
   MyRightTextBubble,
   MyTextArea,
+  MyListCenter,
+  MyListReview,
 };

@@ -4,10 +4,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useTheme } from "react-native-paper";
 
 import DashboardScreen from "../screens/DashboardScreen";
-import CareCenterScreen from "../screens/CareCenterScreen";
-import ProfileScreen from "../screens/ProfileScreen";
 
 import MyTrackMoodStack from "./MyTrackMoodStack";
+import MyCareCenterStack from "./MyCareCenterStack";
 import MyProfileStack from "./MyProfileStack";
 
 const MainBottomTab = createMaterialBottomTabNavigator();
@@ -51,8 +50,8 @@ export default function MyMainBottomTab() {
         }}
       />
       <MainBottomTab.Screen
-        name="CareCenter"
-        component={CareCenterScreen}
+        name="MyCareCenter"
+        component={MyCareCenterStack}
         options={{
           tabBarLabel: "Care Center",
           tabBarIcon: ({ color }) => (
