@@ -78,7 +78,11 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleSignOut = async () => {
     try {
-      await auth.signOut();
+      await auth.signOut().then(() => {
+        dispatch(
+          whoSignin(null, null, null, null, null, null, null, null, null)
+        );
+      });
     } catch (error) {
       console.log(error);
     }
