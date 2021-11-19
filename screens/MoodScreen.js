@@ -126,10 +126,6 @@ const MoodScreen = ({ navigation }) => {
     return unsubscribeMood, unsubscribeGoal;
   }, []);
 
-  const showModal = () => setVisible(true);
-  const hideModal = () => {
-    setVisible(false);
-  };
   const showDialog = (time, icon, color, note) => {
     // console.log(icon, color, note);
     setMoodTime(time);
