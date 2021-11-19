@@ -1,5 +1,4 @@
 export const ANS_MOOD = "ANS_MOOD";
-export const SET_MOOD = "SET_MOOD";
 
 export const ansMood = (
   value,
@@ -17,14 +16,5 @@ export const ansMood = (
     moodAns: moodAns,
     moodColor: moodColor,
     textColor: textColor,
-  };
-};
-
-export const setMood = (value, emotion, note) => {
-  return {
-    type: ANS_MOOD,
-    value: value,
-    emotion: emotion,
-    note: note,
   };
 };

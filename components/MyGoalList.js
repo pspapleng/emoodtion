@@ -5,10 +5,8 @@ import { MyIconButton } from "./MyIconButton";
 
 const MyGoalList = ({
   title,
-  description,
   status,
   color = "black",
-  onCheck,
   onPress,
   onDelete,
   icon,
@@ -19,11 +17,10 @@ const MyGoalList = ({
       <View style={{ width: "90%" }}>
         <List.Item
           title={title}
-          description={description}
           left={() => (
             <Checkbox
               status={status ? "checked" : "unchecked"}
-              onPress={onCheck}
+              onPress={onPress}
               color={color}
               style={{ marginTop: 15 }}
             />
