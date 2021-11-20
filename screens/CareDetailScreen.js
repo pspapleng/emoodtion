@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { whoSignin } from "../store/actions/userAction";
+
 import {
   StatusBar,
   Animated,
@@ -42,13 +44,20 @@ const CareDetailScreen = ({ navigation, route }) => {
   const [myBookmark, setMybookmark] = useState(
     useSelector((state) => state.user.bookmarks)
   );
-  const [isBookmark, setIsBookmark] = useState(true);
+  const [isBookmark, setIsBookmark] = useState(false);
 
-  const id = useSelector((state) => state.user.auth_id);
   const doc_id = useSelector((state) => state.user.doc_id);
+  const id = useSelector((state) => state.user.auth_id);
   const username = useSelector((state) => state.user.username);
   const avatarURL = useSelector((state) => state.user.avatarURL);
+  const firstName = useSelector((state) => state.user.firstName);
+  const lastName = useSelector((state) => state.user.lastName);
+  const birthday = useSelector((state) => state.user.birthday);
+  const gender = useSelector((state) => state.user.gender);
+
   const scrollY = React.useRef(new Animated.Value(0)).current;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = db
@@ -72,15 +81,13 @@ const CareDetailScreen = ({ navigation, route }) => {
         }
       );
 
-    const checkBookmark = myBookmark.filter((item, index) => {
+    myBookmark.filter((item, index) => {
       if (item.doc_id === careCenter.doc_id) {
         setIsBookmark(true);
-      } else {
-        setIsBookmark(false);
       }
     });
 
-    return unsubscribe, checkBookmark;
+    return unsubscribe;
   }, []);
 
   const showDialog = () => {
@@ -127,6 +134,19 @@ const CareDetailScreen = ({ navigation, route }) => {
         bookmarks: myBookmark,
       })
       .then(() => {
+        dispatch(
+          whoSignin(
+            doc_id,
+            id,
+            username,
+            avatarURL,
+            firstName,
+            lastName,
+            birthday,
+            gender,
+            myBookmark
+          )
+        );
         console.log("Document successfully updated!");
       })
       .catch((error) => {
@@ -153,6 +173,19 @@ const CareDetailScreen = ({ navigation, route }) => {
         bookmarks: myBookmark,
       })
       .then(() => {
+        dispatch(
+          whoSignin(
+            doc_id,
+            id,
+            username,
+            avatarURL,
+            firstName,
+            lastName,
+            birthday,
+            gender,
+            myBookmark
+          )
+        );
         console.log("Document successfully updated!");
       })
       .catch((error) => {
