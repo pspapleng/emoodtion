@@ -5,7 +5,6 @@ import {
   Animated,
   Text,
   View,
-  Image,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
@@ -23,11 +22,8 @@ import {
   MyListReview,
 } from "../components";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
 import Firebase, { db } from "../config/Firebase"; //import db จาก config
-
 import { Dialog, Portal, useTheme } from "react-native-paper";
-import { set } from "react-native-reanimated";
 
 const SPACING = 20;
 const AVATAR_SIZE = 100;
@@ -43,9 +39,6 @@ const CareDetailScreen = ({ navigation, route }) => {
   const [textReview, setTextReview] = useState("");
   const [isGood, setIsGood] = useState(false);
   const [isBad, setIsBad] = useState(false);
-
-  const [bookmark, setBookmark] = useState(true);
-
   const [myBookmark, setMybookmark] = useState(
     useSelector((state) => state.user.bookmarks)
   );
@@ -55,7 +48,6 @@ const CareDetailScreen = ({ navigation, route }) => {
   const doc_id = useSelector((state) => state.user.doc_id);
   const username = useSelector((state) => state.user.username);
   const avatarURL = useSelector((state) => state.user.avatarURL);
-  const bookmarks = useSelector((state) => state.user.bookmarks);
   const scrollY = React.useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -79,7 +71,16 @@ const CareDetailScreen = ({ navigation, route }) => {
           // console.log(review[0].create_at.toDate());
         }
       );
-    return unsubscribe;
+
+    const checkBookmark = myBookmark.filter((item, index) => {
+      if (item.doc_id === careCenter.doc_id) {
+        setIsBookmark(true);
+      } else {
+        setIsBookmark(false);
+      }
+    });
+
+    return unsubscribe, checkBookmark;
   }, []);
 
   const showDialog = () => {
@@ -116,13 +117,14 @@ const CareDetailScreen = ({ navigation, route }) => {
   };
 
   const addBookmark = () => {
-    bookmarks.push(careCenter);
-    // console.log(bookmarks);
+    setIsBookmark(!isBookmark);
+    myBookmark.push(careCenter);
+    // console.log(("add", myBookmark));
     return db
       .collection("users")
       .doc(doc_id)
       .update({
-        bookmarks: bookmarks,
+        bookmarks: myBookmark,
       })
       .then(() => {
         console.log("Document successfully updated!");
@@ -135,19 +137,20 @@ const CareDetailScreen = ({ navigation, route }) => {
   };
 
   const removeBookmark = () => {
-    bookmarks.filter((items, index) => {
-      if (items.doc_id.indexOf(careCenter.doc_id) > -1) {
-        // console.log("eiei", index);
-        return bookmarks.splice(index, 1);
+    setIsBookmark(!isBookmark);
+    myBookmark.filter((item, index) => {
+      if (item.doc_id.indexOf(careCenter.doc_id) > -1) {
+        myBookmark.splice(index, 1);
+        setIsBookmark(false);
       } else {
-        return "".indexOf(careCenter.doc_id) > -1;
+        setIsBookmark(true);
       }
     });
     return db
       .collection("users")
       .doc(doc_id)
       .update({
-        bookmarks: bookmarks,
+        bookmarks: myBookmark,
       })
       .then(() => {
         console.log("Document successfully updated!");
@@ -156,7 +159,6 @@ const CareDetailScreen = ({ navigation, route }) => {
         // The document probably doesn't exist.
         console.error("Error updating document: ", error);
       });
-    // console.log("remove succ", bookmarks);
   };
 
   if (isLoading) {
@@ -192,64 +194,26 @@ const CareDetailScreen = ({ navigation, route }) => {
         <ImageBackground
           style={style.headerImage}
           source={{ uri: careCenter.image }}
-        >
-          <View style={style.header}>
-            <View style={style.iconContainer}>
-              {isBookmark ? (
-                <MyIconButton
-                  name="bookmark"
-                  size={30}
-                  color={colors.primary}
-                  onPress={() => console.log("book")}
-                />
-              ) : (
-                <MyIconButton
-                  name="bookmark-outline"
-                  size={30}
-                  color={colors.primary}
-                  onPress={() => console.log("unbook")}
-                />
-              )}
-              {/* {(() => {
-                if (
-                  bookmarks.filter((items) => {
-                    if (items.doc_id.indexOf(item.doc_id) > -1) {
-                      return items.doc_id.indexOf(item.doc_id) > -1;
-                    } else {
-                      return "".indexOf(item.doc_id) > -1;
-                    }
-                  }).length == 1
-                ) {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => (setbookmark(!bookmark), removeBookmark())}
-                    >
-                      <MaterialCommunityIcons
-                        name="bookmark"
-                        color={colors.primary}
-                        size={30}
-                      />
-                    </TouchableOpacity>
-                  );
-                } else {
-                  return (
-                    <TouchableOpacity
-                      onPress={() => (setbookmark(!bookmark), addBookmark())}
-                    >
-                      <MaterialCommunityIcons
-                        name="bookmark-outline"
-                        color={colors.primary}
-                        size={30}
-                      />
-                    </TouchableOpacity>
-                  );
-                }
-              })()} */}
-            </View>
-          </View>
-        </ImageBackground>
+        ></ImageBackground>
+        <View style={style.iconContainer}>
+          {isBookmark ? (
+            <MyIconButton
+              name="bookmark"
+              size={35}
+              color={colors.primary}
+              onPress={removeBookmark}
+            />
+          ) : (
+            <MyIconButton
+              name="bookmark"
+              size={35}
+              color={"#e0e0e0"}
+              onPress={addBookmark}
+            />
+          )}
+        </View>
         <View>
-          <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
+          <View style={{ marginTop: 25, paddingHorizontal: 20 }}>
             <Text style={{ fontSize: 20, fontWeight: "600" }}>
               {careCenter.name}
             </Text>
@@ -483,13 +447,13 @@ const style = StyleSheet.create({
     flexDirection: "row",
   },
   iconContainer: {
-    height: 35,
-    width: 35,
-    backgroundColor: "#fff",
-    borderRadius: 10,
+    height: 50,
+    width: 50,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 50,
     position: "absolute",
-    right: 0,
-    top: 25,
+    right: 25,
+    top: 275,
     justifyContent: "center",
     alignItems: "center",
   },

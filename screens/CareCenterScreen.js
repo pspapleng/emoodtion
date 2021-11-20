@@ -29,6 +29,7 @@ const CareCenterScreen = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = db
       .collection("care_center")
+      .orderBy("name", "asc")
       .limit(5)
       .onSnapshot(
         {
