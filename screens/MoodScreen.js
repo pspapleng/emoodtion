@@ -8,6 +8,8 @@ import {
   ScrollView,
   Alert,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import {
   MyButton,
@@ -17,6 +19,7 @@ import {
   MyAvatar,
   MyMoodList,
   MyGoalList,
+  MyTextArea,
 } from "../components";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -38,7 +41,8 @@ const MoodScreen = ({ navigation }) => {
   const [goal, setGoal] = useState([]);
   const [todayGaol, setTodayGoal] = useState(0);
   const [newGoal, setNewGoal] = useState("");
-  const [visible, setVisible] = useState(false);
+  const [moodVisible, setMoodVisible] = useState(false);
+  const [goalVisible, setGoalVisible] = useState(false);
   const [moodTime, setMoodTime] = useState("");
   const [moodIcon, setMoodIcon] = useState("");
   const [moodBackground, setMoodBackground] = useState("");
@@ -115,27 +119,40 @@ const MoodScreen = ({ navigation }) => {
             let doc_id = doc.id;
             user_goal.push({ ...doc.data(), doc_id });
           });
-          if (user_goal.length > 0) {
-            // console.log(user_goal);
-            setGoal(user_goal);
-            setTodayGoal(user_goal.length);
-          }
+          // console.log(user_goal);
+          setGoal(user_goal);
+          setTodayGoal(user_goal.length);
           setIsLoading(false);
+          console.log("length", user_goal.length);
+
+          console.log("get again");
         }
       );
     return unsubscribeMood, unsubscribeGoal;
   }, []);
 
-  const showDialog = (time, icon, color, note) => {
+  const showMoodDialog = (time, icon, color, note) => {
     // console.log(icon, color, note);
     setMoodTime(time);
     setMoodIcon(icon);
     setMoodBackground(color);
     setMoodNote(note);
-    setVisible(true);
+    setMoodVisible(true);
   };
-  const hideDialog = () => {
-    setVisible(false);
+  const hideMoodDialog = () => {
+    setMoodVisible(false);
+  };
+
+  const showGoalDialog = (time, icon, color, note) => {
+    // console.log(icon, color, note);
+    setMoodTime(time);
+    setMoodIcon(icon);
+    setMoodBackground(color);
+    setMoodNote(note);
+    setMoodVisible(true);
+  };
+  const hideGoalDialog = () => {
+    setGoalVisible(false);
     setNewGoal("");
   };
 
@@ -150,9 +167,9 @@ const MoodScreen = ({ navigation }) => {
           checked: false,
         })
         .then(() => {
-          console.log("Document successfully add!");
           setNewGoal("");
-          setVisible(false);
+          setGoalVisible(false);
+          console.log("Document successfully add!");
         })
         .catch((error) => {
           // The document probably doesn't exist.
@@ -200,27 +217,143 @@ const MoodScreen = ({ navigation }) => {
   return (
     <View style={styles.screen}>
       <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
+        <Dialog visible={moodVisible} onDismiss={hideMoodDialog}>
           <Dialog.Content style={[styles.dialog, { color: colors.subtitle }]}>
-            <Text></Text>
             <MaterialCommunityIcons
               name={moodIcon}
-              size={30}
+              size={40}
+              color={moodBackground}
               style={{ marginBottom: 5 }}
             />
             <Text>{moodTime} </Text>
             <Text></Text>
             <Text style={styles.subtitle}>{moodNote}</Text>
           </Dialog.Content>
-          <Dialog.Title
-            style={{
-              backgroundColor: moodBackground,
-              height: 45,
-              marginTop: 10,
-            }}
-          ></Dialog.Title>
+        </Dialog>
+        <Dialog visible={goalVisible} onDismiss={hideGoalDialog}>
+          <Dialog.Content>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <Dialog.Content style={{ height: 260, paddingVertical: 20 }}>
+                <MyIconButton
+                  name="close"
+                  size={35}
+                  color={colors.subtitle}
+                  onPress={hideGoalDialog}
+                  styleIcon={{ marginLeft: 235, marginVertical: -20 }}
+                />
+                <Text
+                  style={{
+                    fontSize: 24,
+                    fontWeight: "600",
+                    marginTop: -15,
+                    width: 200,
+                  }}
+                >
+                  Add Goal
+                </Text>
+                <MyTextArea
+                  onChangeText={(text) => {
+                    setNewGoal(text);
+                  }}
+                  defaultValue={newGoal}
+                  maxLength={100}
+                  placeholder={"Add your little goal :-)"}
+                  textareaStyle={{
+                    height: 150,
+                    width: 250,
+                  }}
+                  textareaContainerStyle={{
+                    height: 130,
+                    width: 280,
+                    borderRadius: 5,
+                    alignItems: "center",
+                    backgroundColor: "#f2f2f2",
+                    marginVertical: 10,
+                  }}
+                />
+                <View
+                  style={{
+                    alignItems: "center",
+                  }}
+                >
+                  <MyButton
+                    onPress={addGoal}
+                    backgroundColor={colors.secondary}
+                    title="ADD GOAL"
+                    color="#fff"
+                    titleSize={16}
+                    containerStyle={{}}
+                  />
+                </View>
+              </Dialog.Content>
+            </TouchableWithoutFeedback>
+          </Dialog.Content>
         </Dialog>
       </Portal>
+      <View style={{ width: 350, marginBottom: 15 }}>
+        <Card style={{ height: 170 }}>
+          <Card.Content>
+            <Text style={{ marginTop: 5 }}>
+              <Text style={[styles.goal_title, { color: colors.title }]}>
+                <Text> </Text> Today goal
+              </Text>
+              {todayGaol >= 2 ? (
+                <Text style={{ fontSize: 18 }}> 📍</Text>
+              ) : (
+                <MyIconButton
+                  name="plus"
+                  size={30}
+                  color={colors.primary}
+                  onPress={() => {
+                    setGoalVisible(!goalVisible);
+                  }}
+                  styleIcon={{ marginLeft: 5 }}
+                />
+              )}
+            </Text>
+            <List.Section>
+              {todayGaol > 0 ? null : (
+                <Text
+                  style={[
+                    styles.subtitle,
+                    { color: colors.title, marginLeft: 12 },
+                  ]}
+                >
+                  Don't have goal. Add it!
+                </Text>
+              )}
+              {goal.map((item, index) => {
+                return (
+                  <MyGoalList
+                    key={index}
+                    title={item.goal_name}
+                    status={item.checked}
+                    onPress={() => {
+                      db.collection("goal")
+                        .doc(item.doc_id)
+                        .update({
+                          checked: !item.checked,
+                        })
+                        .then(() => {
+                          console.log("Document successfully updated!");
+                        })
+                        .catch((error) => {
+                          // The document probably doesn't exist.
+                          console.error("Error updating document: ", error);
+                        });
+                    }}
+                    icon="delete"
+                    size={20}
+                    onDelete={() => {
+                      deleteGoal(item.doc_id);
+                    }}
+                  />
+                );
+              })}
+            </List.Section>
+          </Card.Content>
+        </Card>
+      </View>
       <View style={{ width: 350 }}>
         <Card style={{ height: 490 }}>
           <Card.Content>
@@ -247,7 +380,7 @@ const MoodScreen = ({ navigation }) => {
                       icon={item.icon}
                       moodColor={item.background}
                       onPress={() =>
-                        showDialog(
+                        showMoodDialog(
                           item.create_at
                             .toDate()
                             .toLocaleTimeString()
@@ -302,10 +435,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     marginBottom: -10,
   },
-  goal_card: {
-    width: 350,
-    marginBottom: 15,
-  },
   goal_title: {
     fontSize: 20,
     fontWeight: "600",
@@ -315,6 +444,7 @@ const styles = StyleSheet.create({
   dialog: {
     alignItems: "center",
     marginHorizontal: 20,
+    marginBottom: 20,
   },
 });
 

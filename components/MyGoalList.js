@@ -1,7 +1,8 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Pressable, StyleSheet } from "react-native";
 import { List, Checkbox } from "react-native-paper";
 import { MyIconButton } from "./MyIconButton";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const MyGoalList = ({
   title,
@@ -14,7 +15,7 @@ const MyGoalList = ({
 }) => {
   return (
     <View style={{ flexDirection: "row" }}>
-      <View style={{ width: "90%" }}>
+      <View style={{ flex: 0.8 }}>
         <List.Item
           title={title}
           left={() => (
@@ -28,19 +29,33 @@ const MyGoalList = ({
           onPress={onPress}
         />
       </View>
-      <View style={{ width: "10%" }}>
-        <MyIconButton
-          name={icon}
-          size={size}
-          color={color}
-          onPress={onDelete}
-          styleIcon={{ marginTop: 17 }}
-        />
-      </View>
+      <Pressable
+        style={(args) => {
+          if (args.pressed) {
+            return [
+              styles.base,
+              {
+                opacity: 0.5,
+                backgroundColor: "transparent",
+              },
+            ];
+          }
+          return [styles.base, { opacity: 1, backgroundColor: "transparent" }];
+        }}
+        onPress={onDelete}
+      >
+        <MaterialCommunityIcons name={icon} size={size} color={color} />
+      </Pressable>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  base: {
+    flex: 0.2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 export default MyGoalList;
