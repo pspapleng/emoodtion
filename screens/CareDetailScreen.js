@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { whoSignin } from "../store/actions/userAction";
-
 import {
   StatusBar,
   Animated,
@@ -15,6 +14,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import {
@@ -98,29 +98,33 @@ const CareDetailScreen = ({ navigation, route }) => {
   };
 
   const addReview = () => {
-    return db
-      .collection("care_center")
-      .doc(careCenter.doc_id)
-      .collection("reviews")
-      .add({
-        auth_id: id,
-        username: username,
-        avatarURL: avatarURL,
-        review: textReview,
-        like: isGood,
-        create_at: new Date(),
-      })
-      .then(() => {
-        setVisible(false);
-        setTextReview("");
-        setIsGood(false);
-        setIsBad(false);
-        console.log("Document successfully added!");
-      })
-      .catch((error) => {
-        // The document probably doesn't exist.
-        console.error("Error adding document: ", error);
-      });
+    if (isGood !== isBad && textReview !== "") {
+      return db
+        .collection("care_center")
+        .doc(careCenter.doc_id)
+        .collection("reviews")
+        .add({
+          auth_id: id,
+          username: username,
+          avatarURL: avatarURL,
+          review: textReview,
+          like: isGood,
+          create_at: new Date(),
+        })
+        .then(() => {
+          setVisible(false);
+          setTextReview("");
+          setIsGood(false);
+          setIsBad(false);
+          console.log("Document successfully added!");
+        })
+        .catch((error) => {
+          // The document probably doesn't exist.
+          console.error("Error adding document: ", error);
+        });
+    } else {
+      Alert.alert("", "Please write and rate review :)");
+    }
   };
 
   const addBookmark = () => {

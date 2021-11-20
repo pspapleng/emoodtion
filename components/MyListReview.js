@@ -55,6 +55,33 @@ const MyListReview = ({ item }) => {
             ellipsizeMode="tail"
           >
             {item.username}
+            <Text> </Text>
+            {item.like ? (
+              <MaterialCommunityIcons
+                name="emoticon"
+                size={20}
+                color="#97DBAE"
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="emoticon-frown"
+                size={20}
+                color="#EC8678"
+              />
+            )}
+            {/* {item.like ? (
+              <MaterialCommunityIcons
+                name="emoticon"
+                size={20}
+                color="#97DBAE"
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="emoticon-frown"
+                size={20}
+                color="#F4BBBB"
+              />
+            )} */}
           </Text>
           <Text
             style={{
@@ -70,15 +97,15 @@ const MyListReview = ({ item }) => {
           </View>
         </View>
         <View style={style.sentiment}>
-          {item.like ? (
-            <MaterialCommunityIcons name="emoticon" size={35} color="#BCA7D5" />
+          {/* {item.like ? (
+            <MaterialCommunityIcons name="emoticon" size={35} color="#97DBAE" />
           ) : (
             <MaterialCommunityIcons
               name="emoticon-frown"
               size={35}
-              color="#BCA7D5"
+              color="#EC8678"
             />
-          )}
+          )} */}
         </View>
       </View>
     </Animated.View>
@@ -88,8 +115,8 @@ const MyListReview = ({ item }) => {
 const style = StyleSheet.create({
   sentiment: {
     position: "absolute",
-    top: 20,
-    right: 1,
+    top: 0,
+    right: 0,
     justifyContent: "center",
     alignItems: "center",
   },
