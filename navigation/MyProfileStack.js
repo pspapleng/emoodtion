@@ -13,7 +13,7 @@ export default function MyProfileStack() {
         headerStyle: {
           backgroundColor: "transparent",
         },
-        headerTintColor: "pink",
+        headerTintColor: "#FF9EB1",
         headerTransparent: true,
         headerTitle: "",
         headerBackTitleVisible: false,

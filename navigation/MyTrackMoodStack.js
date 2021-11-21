@@ -14,7 +14,7 @@ export default function MyTrackMoodStack() {
         headerStyle: {
           backgroundColor: "transparent",
         },
-        headerTintColor: "pink",
+        headerTintColor: "#FF9EB1",
         headerTransparent: true,
         headerTitle: "",
         headerBackTitleVisible: false,

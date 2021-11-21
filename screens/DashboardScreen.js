@@ -100,7 +100,7 @@ const DashboardScreen = ({ navigation }) => {
   let unique = haveDate.filter(onlyUnique);
 
   //cal each date acerage emotion
-  let moodOfEachDay = []; // arr of [mood ของวันเดียวกัน]
+  let moodOfEachDay = []; // arr of [mood ทั้งหมด ของวันเดียวกัน]
   let dayOfMood = ""; // วันที่มี mood จาก moodOfEachDay
   let moodInDay = []; // arr of ค่าเฉลี่ย emotion ของวันที่มี mood
   let avg = 0;

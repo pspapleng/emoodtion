@@ -13,7 +13,7 @@ export default function MyDashboardStack() {
         headerStyle: {
           backgroundColor: "transparent",
         },
-        headerTintColor: "pink",
+        headerTintColor: "#FF9EB1",
         headerTransparent: true,
         headerBackTitleVisible: false,
       }}
