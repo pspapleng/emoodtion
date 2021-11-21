@@ -49,8 +49,12 @@ const MoodScreen = ({ navigation }) => {
   const [moodNote, setMoodNote] = useState("");
 
   useEffect(() => {
-    const start_day = dayjs().startOf("date").toDate();
-    const end_day = dayjs().endOf("date").toDate();
+    const start_day = dayjs()
+      .startOf("date")
+      .toDate();
+    const end_day = dayjs()
+      .endOf("date")
+      .toDate();
     // console.log("today", today, "start_day", start_day, "end_day", end_day);
     const unsubscribeMood = db
       .collection("mood")
@@ -123,9 +127,6 @@ const MoodScreen = ({ navigation }) => {
           setGoal(user_goal);
           setTodayGoal(user_goal.length);
           setIsLoading(false);
-          console.log("length", user_goal.length);
-
-          console.log("get again");
         }
       );
     return unsubscribeMood, unsubscribeGoal;
@@ -139,18 +140,11 @@ const MoodScreen = ({ navigation }) => {
     setMoodNote(note);
     setMoodVisible(true);
   };
+
   const hideMoodDialog = () => {
     setMoodVisible(false);
   };
 
-  const showGoalDialog = (time, icon, color, note) => {
-    // console.log(icon, color, note);
-    setMoodTime(time);
-    setMoodIcon(icon);
-    setMoodBackground(color);
-    setMoodNote(note);
-    setMoodVisible(true);
-  };
   const hideGoalDialog = () => {
     setGoalVisible(false);
     setNewGoal("");
