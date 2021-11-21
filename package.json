@@ -37,7 +37,11 @@
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "rn-vertical-slider": "^2.0.2"
+    "rn-vertical-slider": "^2.0.2",
+    "react-native-calendars": "^1.198.0",
+    "react-native-chart-kit": "^6.11.0",
+    "react-native-dropdown-picker": "^5.2.3",
+    "react-native-image-slider": "^2.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
