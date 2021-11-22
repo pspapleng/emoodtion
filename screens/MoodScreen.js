@@ -32,7 +32,6 @@ const MoodScreen = ({ navigation }) => {
   const { colors } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const currentUser = auth.currentUser;
-  const [name, setName] = useState(currentUser.displayName);
   const [today, setToday] = useState(new Date());
   const [todayText, setTodayText] = useState(
     dayjs(today).format("DD MMM YYYY")
@@ -47,6 +46,7 @@ const MoodScreen = ({ navigation }) => {
   const [moodIcon, setMoodIcon] = useState("");
   const [moodBackground, setMoodBackground] = useState("");
   const [moodNote, setMoodNote] = useState("");
+  const username = useSelector((state) => state.user.username);
 
   useEffect(() => {
     const start_day = dayjs()
@@ -348,7 +348,7 @@ const MoodScreen = ({ navigation }) => {
         <Card style={{ height: 490 }}>
           <Card.Content>
             <List.Subheader style={[styles.title, { color: colors.title }]}>
-              Hi, {name}
+              Hi, {username}
             </List.Subheader>
             <List.Subheader
               style={[styles.subtitle, { color: colors.subtitle }]}
@@ -356,9 +356,12 @@ const MoodScreen = ({ navigation }) => {
               {todayText}
             </List.Subheader>
             <List.Section style={{ height: 360 }}>
-              <ScrollView contentContainerStyle={{ paddingHorizontal: 0 }}>
+              <ScrollView
+                contentContainerStyle={{
+                  paddingHorizontal: 5,
+                }}
+              >
                 {mood.map((item, index) => {
-                  // console.log("item", item);
                   return (
                     <MyMoodList
                       key={index}

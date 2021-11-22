@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Pressable, StyleSheet } from "react-native";
 import { List, Checkbox } from "react-native-paper";
-import { MyIconButton } from "./MyIconButton";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const MyGoalList = ({

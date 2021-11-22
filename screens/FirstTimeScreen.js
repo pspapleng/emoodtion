@@ -12,14 +12,12 @@ import {
   Pressable,
 } from "react-native";
 import { MyButton, MyTextInput, MyErrorMessage, MyAvatar } from "../components";
-import Firebase, { db } from "../config/Firebase";
+import Firebase, { auth, db } from "../config/Firebase";
 import { AuthenticatedUserContext } from "../navigation/AuthenticatedUserProvider";
 import { LinearGradient } from "expo-linear-gradient";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useTheme, RadioButton } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-const auth = Firebase.auth();
 
 const FirstTimeScreen = ({ navigation }) => {
   const { colors } = useTheme();
@@ -89,7 +87,6 @@ const FirstTimeScreen = ({ navigation }) => {
       navigation.navigate("Main");
     } else {
       setError("Please fill up this form.");
-      // console.log(currentUser.providerData);
     }
   };
 

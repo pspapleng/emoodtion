@@ -31,10 +31,7 @@ const MyIconButton = ({ color, size, onPress, name, styleIcon }) => {
 };
 
 const styles = StyleSheet.create({
-  base: {
-    // alignItems: "center",
-    // justifyContent: "center",
-  },
+  base: {},
 });
 
 export default MyIconButton;

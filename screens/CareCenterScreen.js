@@ -30,7 +30,7 @@ const CareCenterScreen = ({ navigation }) => {
     const unsubscribe = db
       .collection("care_center")
       .orderBy("name", "asc")
-      .limit(5)
+      .limit(15)
       .onSnapshot(
         {
           includeMetadataChanges: true,
