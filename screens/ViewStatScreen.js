@@ -31,8 +31,9 @@ const ViewStatScreen = () => {
   const [isMood4Click, setIsMood4Click] = useState(false);
   const [isMood5Click, setIsMood5Click] = useState(true);
   const [selectedMood, setSelectedMood] = useState("Happy Mood");
-  const [color, setColor] = useState(colors.mood5);
+  const [colorTitle, setColorTitle] = useState(colors.mood5);
   const [config, setConfig] = useState(`rgba(123, 213, 188`);
+  const [opa, setOpa] = useState(1);
 
   useEffect(() => {
     const currentUser = auth.currentUser;
@@ -102,20 +103,24 @@ const ViewStatScreen = () => {
   // mood3 176, 181, 179 //215, 219, 217
   // mood4 244, 222, 113 //249, 231, 134
   // mood5 123, 213, 188
-  const chartConfig = {
+  let chartConfig = {
     backgroundGradientFrom: "#ffffff",
     backgroundGradientTo: "#ffffff",
-    // color: (opacity = 1) => `rgba(58, 58, 60, ${opacity})`,
-    color: (opacity = 1) => config + `, ${opacity})`,
+    color: (opacity = 1) => {
+      // console.log(opacity);
+      let tempOp = opacity;
+      if (isNaN(tempOp)) tempOp = 0.4;
+      return config + `, ${tempOp})`;
+    },
     labelColor: () => colors.subtitle,
     strokeWidth: 2,
     barPercentage: 0.5,
     useShadowColorFromDataset: false,
+    decimalPlaces: 0, // optional, defaults to 2dp
     propsForDots: {
-      color: color,
       r: "2",
       strokeWidth: "8",
-      stroke: color,
+      stroke: colorTitle,
     },
   };
 
@@ -127,7 +132,7 @@ const ViewStatScreen = () => {
   let uniqueDate = haveDate.filter(onlyUnique);
   let uniqueMonth = month.filter(onlyUnique);
 
-  let moodOfEachMonth = []; // arr of [mood ทั้งหมด ของเดือนเดียวกัน]
+  let moodOfEachMonth = []; // arr of [mood ทั้งหมด ของเดือนเดียวกัน] => [ [obj], [obj], ...]
   let useAnnual = []; // arr สำหรับใช้ render กราฟเส้น
   const forAnnualGraph = () => {
     for (let i = 0; i < uniqueMonth.length; i++) {
@@ -155,7 +160,6 @@ const ViewStatScreen = () => {
       data = 0;
     }
   };
-
   forAnnualGraph();
 
   //for set annual graph data
@@ -185,15 +189,15 @@ const ViewStatScreen = () => {
     for (let i = 0; i < uniqueDate.length; i++) {
       filterDateMood.push(
         mood.filter(
-          (x) =>
-            dayjs(x.create_at.toDate()).format("YYYY-MM-DD") == uniqueDate[i] &&
-            x.emotion == emoodtion
+          (item) =>
+            dayjs(item.create_at.toDate()).format("YYYY-MM-DD") ==
+              uniqueDate[i] && item.emotion == emoodtion
         )
       );
     }
     filterDateMood.map((item, index) => {
-      item.map((check, index) => {
-        date = dayjs(check.create_at.toDate()).format("YYYY-MM-DD");
+      item.map((mood, index) => {
+        date = dayjs(mood.create_at.toDate()).format("YYYY-MM-DD");
         count = item.length;
       });
       if (date != "" && count != 0) {
@@ -222,14 +226,14 @@ const ViewStatScreen = () => {
           <View style={styles.moodIcon}>
             <TouchableOpacity
               onPress={() => {
-                setIsMood1Click(!isMood1Click);
+                setIsMood1Click(true);
                 setIsMood2Click(false);
                 setIsMood3Click(false);
                 setIsMood4Click(false);
                 setIsMood5Click(false);
                 setSelectedMood("Terrible Mood");
                 setEmoodtion(1);
-                setColor(colors.mood1);
+                setColorTitle(colors.mood1);
                 setConfig(`rgba(148, 149, 153`);
               }}
             >
@@ -242,13 +246,13 @@ const ViewStatScreen = () => {
             <TouchableOpacity
               onPress={() => {
                 setIsMood1Click(false);
-                setIsMood2Click(!isMood2Click);
+                setIsMood2Click(true);
                 setIsMood3Click(false);
                 setIsMood4Click(false);
                 setIsMood5Click(false);
                 setSelectedMood("Bad Mood");
                 setEmoodtion(2);
-                setColor(colors.mood2);
+                setColorTitle(colors.mood2);
                 setConfig(`rgba(135, 173, 201`);
               }}
             >
@@ -262,12 +266,12 @@ const ViewStatScreen = () => {
               onPress={() => {
                 setIsMood1Click(false);
                 setIsMood2Click(false);
-                setIsMood3Click(!isMood3Click);
+                setIsMood3Click(true);
                 setIsMood4Click(false);
                 setIsMood5Click(false);
                 setSelectedMood("Neutral Mood");
                 setEmoodtion(3);
-                setColor(colors.mood3);
+                setColorTitle(colors.mood3);
                 setConfig(`rgba(176, 181, 179`);
               }}
             >
@@ -284,11 +288,11 @@ const ViewStatScreen = () => {
                 setIsMood1Click(false);
                 setIsMood2Click(false);
                 setIsMood3Click(false);
-                setIsMood4Click(!isMood4Click);
+                setIsMood4Click(true);
                 setIsMood5Click(false);
                 setSelectedMood("Good Mood");
                 setEmoodtion(4);
-                setColor(colors.mood4);
+                setColorTitle(colors.mood4);
                 setConfig(`rgba(244, 222, 113`);
               }}
             >
@@ -306,10 +310,10 @@ const ViewStatScreen = () => {
                 setIsMood2Click(false);
                 setIsMood3Click(false);
                 setIsMood4Click(false);
-                setIsMood5Click(!isMood5Click);
+                setIsMood5Click(true);
                 setSelectedMood("Happy Mood");
                 setEmoodtion(5);
-                setColor(colors.mood5);
+                setColorTitle(colors.mood5);
                 setConfig(`rgba(123, 213, 188`);
               }}
             >
@@ -333,9 +337,8 @@ const ViewStatScreen = () => {
             <ContributionGraph
               values={useConGraph}
               horizontal={true}
-              endDate={new Date("2021-12-31")}
-              numDays={186}
-              width={570}
+              numDays={uniqueMonth.length * 31}
+              width={18 * ((uniqueMonth.length * 31) / 3.7)}
               squareSize={18}
               height={200}
               chartConfig={chartConfig}
@@ -351,20 +354,22 @@ const ViewStatScreen = () => {
               overall
             </Text>
           </View>
-          <ScrollView
-            horizontal={true}
-            showsHorizontalScrollIndicator={true}
-            style={{ marginHorizontal: 10 }}
-          >
-            <LineChart
-              style={{ marginTop: 15 }}
-              data={annualData}
-              width={350}
-              height={275}
-              chartConfig={chartConfig}
-              bezier
-            />
-          </ScrollView>
+          {mood.length != 0 ? (
+            <ScrollView
+              horizontal={true}
+              showsHorizontalScrollIndicator={true}
+              style={{ marginHorizontal: 10 }}
+            >
+              <LineChart
+                style={{ marginTop: 15 }}
+                data={annualData}
+                width={350}
+                height={275}
+                chartConfig={chartConfig}
+                bezier
+              />
+            </ScrollView>
+          ) : null}
         </Card>
       </View>
     </View>

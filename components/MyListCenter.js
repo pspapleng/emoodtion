@@ -21,15 +21,16 @@ const MyListCenter = ({ item, onPress }) => {
           flexDirection: "column",
           padding: SPACING,
           marginBottom: SPACING,
-          backgroundColor: "rgba(255,255,255,0.8)",
+          // backgroundColor: "rgba(255,255,255,0.8)",
+          backgroundColor: "#fff",
           borderRadius: 12,
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
             height: 10,
           },
-          shadowOpacity: 0.3,
-          shadowRadius: 20,
+          shadowOpacity: 0.1,
+          shadowRadius: 15,
         }}
       >
         <View

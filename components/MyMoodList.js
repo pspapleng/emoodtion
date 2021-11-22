@@ -24,6 +24,7 @@ const MyMoodList = ({
           />
         )}
         onPress={onPress}
+        style={{ backgroundColor: "#fff" }}
       />
     </View>
   );

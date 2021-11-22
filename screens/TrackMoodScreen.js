@@ -47,6 +47,7 @@ const TrackMoodScreen = ({ navigation }) => {
     setMood4(mood4);
     const mood5 = randomItem(ARR_MOOD5);
     setMood5(mood5);
+    return ques, mood1, mood2, mood3, mood4, mood5;
   }, []);
 
   const randomItem = (items) => {

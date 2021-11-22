@@ -55,7 +55,6 @@ const MoodScreen = ({ navigation }) => {
     const end_day = dayjs()
       .endOf("date")
       .toDate();
-    // console.log("today", today, "start_day", start_day, "end_day", end_day);
     const unsubscribeMood = db
       .collection("mood")
       .where("auth_id", "==", currentUser.uid)
@@ -102,7 +101,6 @@ const MoodScreen = ({ navigation }) => {
             }
             user_mood.push({ ...doc.data(), icon, background });
           });
-          // console.log(user_mood);
           setMood(user_mood);
         }
       );
@@ -123,7 +121,6 @@ const MoodScreen = ({ navigation }) => {
             let doc_id = doc.id;
             user_goal.push({ ...doc.data(), doc_id });
           });
-          // console.log(user_goal);
           setGoal(user_goal);
           setTodayGoal(user_goal.length);
           setIsLoading(false);
@@ -133,7 +130,6 @@ const MoodScreen = ({ navigation }) => {
   }, []);
 
   const showMoodDialog = (time, icon, color, note) => {
-    // console.log(icon, color, note);
     setMoodTime(time);
     setMoodIcon(icon);
     setMoodBackground(color);
@@ -219,7 +215,7 @@ const MoodScreen = ({ navigation }) => {
               color={moodBackground}
               style={{ marginBottom: 5 }}
             />
-            <Text>{moodTime} </Text>
+            <Text>{moodTime}</Text>
             <Text></Text>
             <Text style={styles.subtitle}>{moodNote}</Text>
           </Dialog.Content>
@@ -425,7 +421,7 @@ const styles = StyleSheet.create({
     marginBottom: -15,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "left",
     marginBottom: -10,
   },

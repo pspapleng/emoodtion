@@ -154,15 +154,16 @@ const DashboardScreen = ({ navigation }) => {
   let datasource = {}; //สำหรับทำ markedDates
   for (let day = 0; day < daysInMonth; day++) {
     const currentDay = firstDay.add(day, "day").format("YYYY-MM-DD"); //วันที่ +1day ไปเรื่อยๆ จนครบเดือน
+    // default marked
+
+    // ckeck == pickedDate
     if (currentDay == pickedDate) {
-      //default marked
       datasource[currentDay.toString()] = {
         date: currentDay.toString(),
         customStyles: {
           container: {
             borderColor: colors.subtitle,
-            borderWidth: 2,
-            borderStyle: "dotted",
+            borderWidth: 1,
           },
           text: {
             color: colors.subtitle,
@@ -178,8 +179,6 @@ const DashboardScreen = ({ navigation }) => {
           container: {
             backgroundColor: item.background,
             borderColor: colors.subtitle,
-            borderWidth: 2,
-            borderStyle: "dotted",
           },
           text: {
             color: item.textCol,
@@ -194,8 +193,7 @@ const DashboardScreen = ({ navigation }) => {
             container: {
               backgroundColor: item.background,
               borderColor: colors.subtitle,
-              borderWidth: 2,
-              borderStyle: "dotted",
+              borderWidth: 1,
             },
             text: {
               color: item.textCol,
@@ -265,7 +263,9 @@ const DashboardScreen = ({ navigation }) => {
                   }}
                 >
                   <Text>
-                    <Text>view statistics</Text>
+                    <Text>
+                      view statistics <Text> </Text>
+                    </Text>
                     <MaterialCommunityIcons
                       name="chart-line"
                       size={19}
@@ -364,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "left",
     marginBottom: -10,
   },
