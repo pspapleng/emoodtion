@@ -77,7 +77,6 @@ const CareDetailScreen = ({ navigation, route }) => {
           });
           setReview(review);
           setIsLoading(false);
-          // console.log(review[0].create_at.toDate());
         }
       );
 
@@ -157,7 +156,6 @@ const CareDetailScreen = ({ navigation, route }) => {
         // The document probably doesn't exist.
         console.error("Error updating document: ", error);
       });
-    // console.log("bookmark succ", bookmarks);
   };
 
   const removeBookmark = () => {

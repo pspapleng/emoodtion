@@ -30,7 +30,6 @@ const CareCenterScreen = ({ navigation }) => {
     const unsubscribe = db
       .collection("care_center")
       .orderBy("name", "asc")
-      .limit(15)
       .onSnapshot(
         {
           includeMetadataChanges: true,
@@ -44,8 +43,6 @@ const CareCenterScreen = ({ navigation }) => {
           setData(care_center);
           setFilterData(care_center);
           setIsLoading(false);
-          // console.log(care_center);
-          // console.log("ok", care_center[0]);
         }
       );
     return unsubscribe;
@@ -70,7 +67,6 @@ const CareCenterScreen = ({ navigation }) => {
           return "".toUpperCase().indexOf(textData) > -1;
         }
       });
-      // console.log(newData);
       setFilterData(newData);
       setSearch(text);
     } else {
