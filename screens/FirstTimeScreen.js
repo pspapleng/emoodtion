@@ -62,28 +62,33 @@ const FirstTimeScreen = ({ navigation }) => {
         .catch((error) => {
           setError(error);
         });
-      db.collection("users").add({
-        auth_id: currentUser.uid,
-        username: name,
-        avatarURL: avatar,
-        firstName: firstName,
-        lastName: lastName,
-        birthday: birthDate,
-        gender: gender,
-        bookmarks: [],
-      });
-      dispatch(
-        whoSignin(
-          currentUser.uid,
-          name,
-          avatar,
-          firstName,
-          lastName,
-          birthDate,
-          gender,
-          []
-        )
-      );
+      db.collection("users")
+        .add({
+          auth_id: currentUser.uid,
+          username: name,
+          avatarURL: avatar,
+          firstName: firstName,
+          lastName: lastName,
+          birthday: birthDate,
+          gender: gender,
+          bookmarks: [],
+        })
+        .then((result) => {
+          dispatch(
+            whoSignin(
+              result.id,
+              currentUser.uid,
+              name,
+              avatar,
+              firstName,
+              lastName,
+              birthDate,
+              gender,
+              []
+            )
+          );
+          console.log(result.id);
+        });
       navigation.navigate("Main");
     } else {
       setError("Please fill up this form.");

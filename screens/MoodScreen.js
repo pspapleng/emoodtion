@@ -148,6 +148,8 @@ const MoodScreen = ({ navigation }) => {
 
   const addGoal = () => {
     if (newGoal != "") {
+      setNewGoal("");
+      setGoalVisible(false);
       return db
         .collection("goal")
         .add({
@@ -157,8 +159,6 @@ const MoodScreen = ({ navigation }) => {
           checked: false,
         })
         .then(() => {
-          setNewGoal("");
-          setGoalVisible(false);
           console.log("Document successfully add!");
         })
         .catch((error) => {
