@@ -7,16 +7,12 @@ import {
   ActivityIndicator,
   ScrollView,
   Alert,
-  KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
 import {
   MyButton,
-  MyTextInput,
-  MyErrorMessage,
   MyIconButton,
-  MyAvatar,
   MyMoodList,
   MyGoalList,
   MyTextArea,
@@ -40,8 +36,11 @@ const MoodScreen = ({ navigation }) => {
   const [goal, setGoal] = useState([]);
   const [todayGaol, setTodayGoal] = useState(0);
   const [newGoal, setNewGoal] = useState("");
+  const [selectedGoal, setSeltectedGoal] = useState("");
+  const [selectedGoalId, setSeltectedGoalId] = useState("");
   const [moodVisible, setMoodVisible] = useState(false);
   const [goalVisible, setGoalVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
   const [moodTime, setMoodTime] = useState("");
   const [moodIcon, setMoodIcon] = useState("");
   const [moodBackground, setMoodBackground] = useState("");
@@ -146,6 +145,10 @@ const MoodScreen = ({ navigation }) => {
     setNewGoal("");
   };
 
+  const hideEditDialog = () => {
+    setEditVisible(false);
+  };
+
   const addGoal = () => {
     if (newGoal != "") {
       setNewGoal("");
@@ -170,30 +173,76 @@ const MoodScreen = ({ navigation }) => {
     }
   };
 
-  const deleteGoal = (id) => {
-    Alert.alert("Delete Goal", "Are you sure?", [
-      {
-        text: "Yes",
-        onPress: () => {
-          return db
-            .collection("goal")
-            .doc(id)
-            .delete()
-            .then(() => {
-              console.log("Document successfully deleted!");
-              Alert.alert("", "Delete complete!");
-            })
-            .catch((error) => {
-              console.error("Error removing document: ", error);
-            });
-        },
-      },
-      {
-        text: "No",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "destructive",
-      },
-    ]);
+  const selcetGoal = (id, type) => {
+    setSeltectedGoalId(id);
+    let selected_goal = goal.filter((item) => {
+      return item.doc_id == id;
+    });
+    setSeltectedGoal(selected_goal[0].goal_name);
+
+    if (type == "edit") {
+      if (selected_goal[0].checked) {
+        Alert.alert("Goal completed", "Can't edit", [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ]);
+      } else {
+        setEditVisible(true);
+      }
+    } else if (type == "delete") {
+      if (selected_goal[0].checked) {
+        Alert.alert("Goal completed", "Can't delete", [
+          {
+            text: "OK",
+            onPress: () => {},
+          },
+        ]);
+      } else {
+        Alert.alert("Delete Goal", "Are you sure?", [
+          {
+            text: "Yes",
+            onPress: () => {
+              return db
+                .collection("goal")
+                .doc(id)
+                .delete()
+                .then(() => {
+                  console.log("Document successfully deleted!");
+                  Alert.alert("", "Delete complete!");
+                })
+                .catch((error) => {
+                  console.error("Error removing document: ", error);
+                });
+            },
+          },
+          {
+            text: "No",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "destructive",
+          },
+        ]);
+      }
+    }
+  };
+
+  const saveGoal = () => {
+    return db
+      .collection("goal")
+      .doc(selectedGoalId)
+      .update({
+        goal_name: selectedGoal,
+      })
+      .then(() => {
+        console.log("Document successfully updated!");
+        setEditVisible(false);
+        setSeltectedGoal("");
+        setSeltectedGoalId("");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
   };
 
   if (isLoading) {
@@ -279,6 +328,65 @@ const MoodScreen = ({ navigation }) => {
             </TouchableWithoutFeedback>
           </Dialog.Content>
         </Dialog>
+        <Dialog visible={editVisible} onDismiss={hideEditDialog}>
+          <Dialog.Content>
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <Dialog.Content style={{ height: 260, paddingVertical: 20 }}>
+                <MyIconButton
+                  name="close"
+                  size={35}
+                  color={colors.subtitle}
+                  onPress={hideEditDialog}
+                  styleIcon={{ marginLeft: 235, marginVertical: -20 }}
+                />
+                <Text
+                  style={{
+                    fontSize: 24,
+                    fontWeight: "600",
+                    marginTop: -15,
+                    width: 200,
+                  }}
+                >
+                  Edit Goal
+                </Text>
+                <MyTextArea
+                  onChangeText={(text) => {
+                    setSeltectedGoal(text);
+                  }}
+                  defaultValue={selectedGoal}
+                  maxLength={100}
+                  placeholder={"Your little goal :-)"}
+                  textareaStyle={{
+                    height: 150,
+                    width: 250,
+                  }}
+                  textareaContainerStyle={{
+                    height: 130,
+                    width: 280,
+                    borderRadius: 5,
+                    alignItems: "center",
+                    backgroundColor: "#f2f2f2",
+                    marginVertical: 10,
+                  }}
+                />
+                <View
+                  style={{
+                    alignItems: "center",
+                  }}
+                >
+                  <MyButton
+                    onPress={saveGoal}
+                    backgroundColor={colors.secondary}
+                    title="SAVE GOAL"
+                    color="#fff"
+                    titleSize={16}
+                    containerStyle={{}}
+                  />
+                </View>
+              </Dialog.Content>
+            </TouchableWithoutFeedback>
+          </Dialog.Content>
+        </Dialog>
       </Portal>
       <View style={{ width: 350, marginBottom: 15 }}>
         <Card style={{ height: 170 }}>
@@ -332,10 +440,12 @@ const MoodScreen = ({ navigation }) => {
                           console.error("Error updating document: ", error);
                         });
                     }}
-                    icon="delete"
                     size={20}
                     onDelete={() => {
-                      deleteGoal(item.doc_id);
+                      selcetGoal(item.doc_id, "delete");
+                    }}
+                    onEdit={() => {
+                      selcetGoal(item.doc_id, "edit");
                     }}
                   />
                 );

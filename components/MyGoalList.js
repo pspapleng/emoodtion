@@ -8,8 +8,8 @@ const MyGoalList = ({
   status,
   color = "black",
   onPress,
+  onEdit,
   onDelete,
-  icon,
   size,
 }) => {
   return (
@@ -41,9 +41,26 @@ const MyGoalList = ({
           }
           return [styles.base, { opacity: 1, backgroundColor: "transparent" }];
         }}
+        onPress={onEdit}
+      >
+        <MaterialCommunityIcons name="pencil" size={size} color={color} />
+      </Pressable>
+      <Pressable
+        style={(args) => {
+          if (args.pressed) {
+            return [
+              styles.base,
+              {
+                opacity: 0.5,
+                backgroundColor: "transparent",
+              },
+            ];
+          }
+          return [styles.base, { opacity: 1, backgroundColor: "transparent" }];
+        }}
         onPress={onDelete}
       >
-        <MaterialCommunityIcons name={icon} size={size} color={color} />
+        <MaterialCommunityIcons name="delete" size={size} color={color} />
       </Pressable>
     </View>
   );
@@ -51,9 +68,10 @@ const MyGoalList = ({
 
 const styles = StyleSheet.create({
   base: {
-    flex: 0.2,
+    flex: 0.15,
     alignItems: "center",
     justifyContent: "center",
+    marginHorizontal: -5,
   },
 });
 

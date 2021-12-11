@@ -48,18 +48,26 @@ const TrackDetailScreen = ({ navigation }) => {
 
   const hideDialog = () => {
     if (auth_id) {
-      db.collection("mood").add({
-        auth_id: auth_id,
-        create_at: new Date(),
-        emotion: emotion,
-        value: value,
-        note: textarea,
-      });
+      setVisible(false);
+      return db
+        .collection("mood")
+        .add({
+          auth_id: auth_id,
+          create_at: new Date(),
+          emotion: emotion,
+          value: value,
+          note: textarea,
+        })
+        .then(() => {
+          navigation.navigate("Mood");
+        })
+        .catch((error) => {
+          // The document probably doesn't exist.
+          console.error("Error adding document: ", error);
+        });
     } else {
       console.log("error: don't have auth_id");
     }
-    setVisible(false);
-    navigation.navigate("Mood");
   };
   const onSave = () => {
     setVisible(true);
