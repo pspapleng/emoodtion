@@ -267,7 +267,7 @@ const SignInScreen = ({ navigation }) => {
             <MyTextInput
               inputStyle={{}}
               containerStyle={{
-                marginBottom: 5,
+                marginBottom: 20,
               }}
               leftIcon="lock"
               placeholder="Enter password"
@@ -280,9 +280,6 @@ const SignInScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
               handlePasswordVisibility={handlePasswordVisibility}
             />
-            <Text style={[styles.forgot, { color: colors.subtitle }]}>
-              Forgot password?
-            </Text>
             <MyButton
               onPress={onSignin}
               backgroundColor={colors.primary}
