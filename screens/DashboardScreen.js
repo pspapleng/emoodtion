@@ -36,6 +36,7 @@ const DashboardScreen = ({ navigation }) => {
     const unsubscribe = db
       .collection("mood")
       .where("auth_id", "==", currentUser.uid)
+      .orderBy("create_at", "asc")
       .onSnapshot(
         {
           includeMetadataChanges: true,
@@ -250,7 +251,7 @@ const DashboardScreen = ({ navigation }) => {
           markedDates={datasource}
         />
         <View style={{ width: 350, marginTop: 8 }}>
-          <Card style={{ height: 395, backgroundColor: "#f2f2f2" }}>
+          <Card style={{ height: 395, backgroundColor: "#f4f4f4" }}>
             <Card.Content>
               <View style={styles.noteContainer}>
                 <Text style={[styles.noteDate, { color: colors.subtitle }]}>
@@ -334,8 +335,6 @@ const DashboardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    // justifyContent: "center",
-    // alignItems: "center",
     backgroundColor: "white",
   },
   calendar: {
@@ -344,7 +343,6 @@ const styles = StyleSheet.create({
   },
   bigContainer: {
     flex: 1,
-    // justifyContent: "center",
     alignItems: "center",
     position: "relative",
     marginVertical: 10,
