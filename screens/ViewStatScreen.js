@@ -103,7 +103,7 @@ const ViewStatScreen = () => {
   // mood3 176, 181, 179 //215, 219, 217
   // mood4 244, 222, 113 //249, 231, 134
   // mood5 123, 213, 188
-  let chartConfig = {
+  let heatmapConfig = {
     backgroundGradientFrom: "#ffffff",
     backgroundGradientTo: "#ffffff",
     color: (opacity = 1) => {
@@ -116,11 +116,21 @@ const ViewStatScreen = () => {
     strokeWidth: 2,
     barPercentage: 0.5,
     useShadowColorFromDataset: false,
+  };
+
+  let lineConfig = {
+    backgroundGradientFrom: "#ffffff",
+    backgroundGradientTo: "#ffffff",
+    color: (opacity = 1) => `rgba(255, 158, 177, ${opacity})`, // สีพื้นที่ใต้กราฟ
+    labelColor: () => colors.subtitle,
+    strokeWidth: 2,
+    barPercentage: 0.5,
+    useShadowColorFromDataset: false,
     decimalPlaces: 0, // optional, defaults to 2dp
     propsForDots: {
       r: "2",
       strokeWidth: "8",
-      stroke: colorTitle,
+      stroke: colors.primary, // สีจุด
     },
   };
 
@@ -175,7 +185,7 @@ const ViewStatScreen = () => {
     datasets: [
       {
         data: forData,
-        color: (opacity = 1) => `rgba(100, 62, 69, ${opacity})`,
+        color: (opacity = 1) => `rgba(255, 158, 177, ${opacity})`, //เส้นใน linechart
         strokeWidth: 2,
       },
     ],
@@ -341,7 +351,7 @@ const ViewStatScreen = () => {
               width={18 * ((uniqueMonth.length * 31) / 3.7)}
               squareSize={18}
               height={200}
-              chartConfig={chartConfig}
+              chartConfig={heatmapConfig}
             />
           </ScrollView>
         </Card>
@@ -365,7 +375,7 @@ const ViewStatScreen = () => {
                 data={annualData}
                 width={350}
                 height={275}
-                chartConfig={chartConfig}
+                chartConfig={lineConfig}
                 bezier
               />
             </ScrollView>
