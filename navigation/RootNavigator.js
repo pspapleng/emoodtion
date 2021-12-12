@@ -12,8 +12,6 @@ export default function RootNavigator() {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [isLoading, setIsLoading] = useState(true);
 
-  // const currentUser = auth.currentUser;
-
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
     const unsubscribeAuth = auth.onAuthStateChanged(
@@ -23,8 +21,6 @@ export default function RootNavigator() {
             ? setUser(authenticatedUser)
             : setUser(null));
           setIsLoading(false);
-          // console.log(authenticatedUser);
-          // console.log(authenticatedUser.providerData[0]);
         } catch (error) {
           console.log(error);
         }
