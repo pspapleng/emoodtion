@@ -23,7 +23,6 @@ const MyTextInput = ({
   return (
     <View>
       {label ? <Text style={styles.label}>{label}</Text> : null}
-      {/* {editable ? style={[styles.container, {backgroundColor: "#FFF"} , containerStyle]} : style={[styles.container, {backgroundColor: "#C2c2c2"} , containerStyle]} } */}
       <View style={[styles.container, containerStyle]}>
         {leftIcon ? (
           <MaterialCommunityIcons
