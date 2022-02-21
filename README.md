@@ -19,25 +19,6 @@
     <a href="https://github.com/pspapleng/emoodtion/issues">Request Feature</a>
   </p>
 </p>
-
-<!-- TABLE OF CONTENTS -->
-
-## Table of Contents
-
-- [About the Project](#about-the-project)
-  - [Problem](#Problem)
-  - [Built With](#built-with)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [How to run](#how-to-run)
-- [Design](#design)
-- [Video Demo](#video-demo)
-
-# About The Project
- <img src="https://user-images.githubusercontent.com/56394181/154985353-4cbfc8ee-c8a1-4c01-93f7-b5abbc8135d6.png" alt="banner" >
- 
-### Problem
-### Built With
  
 ## Getting Started
 
