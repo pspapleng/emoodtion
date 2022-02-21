@@ -9,7 +9,7 @@
   <p align="center">
   <strong> just count your blessings :-) </strong>
     <br />
-    <a href="">View Video Demo »</a>
+    <a href="https://youtu.be/CHW54I5LktI">View Video Demo »</a>
     <br />
     <br />
     <a href="https://github.com/pspapleng/emoodtion">Explore The Doc</a>
@@ -37,7 +37,6 @@
  <img src="https://user-images.githubusercontent.com/56394181/154985353-4cbfc8ee-c8a1-4c01-93f7-b5abbc8135d6.png" alt="banner" >
  
 ### Problem
-
 ### Built With
  
 ## Getting Started
@@ -46,4 +45,7 @@
 ### How to run
 
 ## Design
+- [emoodtion figma](https://www.figma.com/file/d7N6gfkdZd4F4O4liD8BpM/emoodtion)
+
 ## Video Demo
+- [emoodtion demo](https://youtu.be/CHW54I5LktI)
