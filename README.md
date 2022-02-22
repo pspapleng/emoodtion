@@ -23,7 +23,26 @@
 ## Getting Started
 
 ### Prerequisites
+
+- Install [Expo CLI](https://docs.expo.dev/get-started/installation/)
+- iOS Simulator or iOS Devices
+- screen size >= 6.06 inches (recommended iphone 11 screen size)
+
 ### How to run
+
+```
+git clone https://github.com/pspapleng/emoodtion.git
+```
+```
+yarn install
+```
+```
+expo start
+
+//or
+
+yarn start
+```
 
 ## Design
 - [emoodtion figma](https://www.figma.com/file/d7N6gfkdZd4F4O4liD8BpM/emoodtion)
